@@ -13,4 +13,17 @@
     <!-- 配置包扫描器，扫描所有带@Service注解的类 -->
     <context:component-scan base-package="com.taotao.service"/>
 
+    <!-- 具体的实现bean -->
+    <bean id="itemServiceImpl" class="com.taotao.service.impl.ItemServiceImpl" />
+
+    <!-- 发布dubbo服务 -->
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="taotao-manager" />
+    <!-- 注册中心的地址 -->
+    <dubbo:registry protocol="zookeeper" address="zookeeper://192.168.180.129:2181?backup=192.168.180.129:2182,192.168.180.129:2183" />
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20880" />
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.taotao.service.ItemService" ref="itemServiceImpl" timeout="300000"/>
+
 </beans>
